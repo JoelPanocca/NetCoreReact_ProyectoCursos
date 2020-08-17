@@ -26,8 +26,26 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Curso>> GetCurso(int id)
         {
-            return  await mediator.Send(new ConsultaPorId.ConsultaRq{IdCurso = id});
+            return await mediator.Send(new ConsultaPorId.ConsultaRq { IdCurso = id });
         }
 
+        [HttpPost]
+        public async Task<ActionResult<Unit>> SaveCurso(NuevoCurso.NuevoCursoRq data)
+        {
+            return await mediator.Send(data);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Unit>> UpdateCurso(int id, EditarCurso.EditarCursoRq data)
+        {
+            data.CursoId = id;
+            return await mediator.Send(data);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> DeleteCurso(int id)
+        {
+            return await mediator.Send( new EliminarCurso.EliminarCursoRq(){CursoId = id});
+        }
     }
 }
