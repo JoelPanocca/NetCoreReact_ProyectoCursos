@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Dominio;
+using FluentValidation;
 using MediatR;
 using Persistencia;
 
@@ -13,7 +14,17 @@ namespace Aplicacion.Cursos
         {
             public string Titulo { get; set; }
             public string Descripcion { get; set; }
-            public DateTime FechaPublicacion { get; set; }
+            public DateTime? FechaPublicacion { get; set; }
+        }
+
+        public class NuevoCursoRqValidation : AbstractValidator<NuevoCursoRq>
+        {
+            public NuevoCursoRqValidation()
+            {
+                RuleFor(t => t.Titulo).NotEmpty().WithMessage("El campo título es obligatorio");
+                RuleFor(t => t.Descripcion).NotEmpty().WithMessage("El campo descripción es obligatorio");
+                RuleFor(t => t.FechaPublicacion).NotEmpty().WithMessage("El campo fecha publicación es obligatorio");
+            }
         }
 
         public class Manejador : IRequestHandler<NuevoCursoRq>
